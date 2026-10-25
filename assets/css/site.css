@@ -225,10 +225,11 @@ and set in the UI face rather than the body one. */
 .btn-gold:hover,
 .btn-dark:hover{background:#e0b863;border-color:#e0b863;color:var(--deep)}
 /* the quiet action: a raised panel, gold on hover */
-.btn-light{background:rgba(43,48,59,.85);border-color:var(--line-2);color:var(--fg);backdrop-filter:blur(6px)}
-.btn-light:hover{background:var(--gold);border-color:var(--gold);color:var(--deep)}
-.btn-ghost{background:transparent;border-color:var(--line-2);color:var(--fg)}
-.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-light{background:var(--gold);border-color:var(--gold);color:var(--deep)}
+.btn-light:hover{background:#e0b863;border-color:#e0b863;color:var(--deep)}
+/* the secondary: a gold-tinted outline, white words */
+.btn-ghost{background:transparent;border-color:rgba(211,167,80,.5);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(211,167,80,.1);color:var(--fg)}
 
 .section{padding-block:var(--band)}
 .section.stone{background:var(--paper)}
@@ -825,7 +826,7 @@ so the band is never a hole. */
 .lg-dot,
 .lg-hub{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold)}
 .lg-hub{margin-inline-start:14px;background:var(--ink);box-shadow:0 0 0 2px var(--gold)}
-.lg-drag{margin-inline-start:14px;opacity:.6}
+.lg-drag{margin-inline-start:14px;color:var(--ink-2)}
 
 /* On the trading sector page the register stands alone,
 three to a row. */
@@ -1006,7 +1007,7 @@ so a role that
 .area-by:hover{color:var(--gold-text)}
 @media (max-width:1100px){ .areas{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (max-width:800px){ .areas{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:520px){ .areas{grid-template-columns:1fr} }
+
 @media (prefers-reduced-motion:reduce){ .area{transition:none} .area:hover{transform:none} }
 
 /* ---- the Supplier Portal on the home page --------------------------------- */
@@ -1440,9 +1441,8 @@ in the company's colour ---- */
 
 /* ---- the quote: the company in one of its own sentences ---- */
 .co-quote{padding-block:clamp(40px,5vw,72px);background:var(--ink)}
-.co-quote blockquote{margin:0 auto;max-width:40ch;text-align:center}
-.co-quote p{font:700 clamp(1.5rem,2.8vw,2.375rem)/1.3 var(--display);color:#fff;text-wrap:balance}
-.co-quote p::before{content:"";display:block;width:48px;height:2px;background:var(--co);margin:0 auto 24px}
+.co-quote blockquote{margin:0;max-width:46ch;text-align:left;border-inline-start:2px solid var(--gold);padding-inline-start:clamp(20px,2.6vw,32px)}
+.co-quote p{font:600 clamp(1.375rem,2.2vw,1.875rem)/1.35 var(--display);color:#fff;text-wrap:balance}
 .co-dark .co-quote{background:#2a1d16}
 .co-dark .co-quote p{color:#f6eee6}
 
@@ -1486,10 +1486,6 @@ not a box */
 
 /* the five ways the Group creates value,
 five to the row */
-@media (min-width:901px){
-  .vcreate{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .vc,.vcreate:has(> .vc:nth-child(5):last-child) > .vc:nth-child(4),
-  .vcreate:has(> .vc:nth-child(5):last-child) > .vc:nth-child(5){grid-column:auto}
 }
 
 
@@ -1956,7 +1952,7 @@ body{background:var(--bg);color:var(--fg)}
 .tile-mark{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(15,19,25,.6);color:var(--gold);font-size:.875rem}
 .tile:focus-visible{outline:2px solid var(--gold);outline-offset:-3px}
 @media (max-width:1000px){ .tiles,.tiles-5{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:560px){ .tiles,.tiles-5{grid-template-columns:1fr} .tile{aspect-ratio:16/9} }
+@media (max-width:560px){ .tiles,.tiles-5,.tiles-3{grid-template-columns:1fr} .tile{aspect-ratio:16/9} }
 @media (prefers-reduced-motion:reduce){ .tile img{transition:none} }
 
 /* ---- global presence ---- */
@@ -2063,8 +2059,8 @@ body{background:var(--bg);color:var(--fg)}
 .chead h2{font:700 clamp(1.5rem,2.8vw,1.875rem)/1.2 var(--display);color:var(--fg)}
 .chead > p:not(.ar){margin:24px auto 0;max-width:48rem;font:400 .9375rem/1.7 var(--body);color:var(--ink-2)}
 .chead .ar{display:block;margin-top:8px}
-.closing{border-top:1px solid var(--line);background:var(--paper);padding-block:clamp(56px,7vw,80px);text-align:center}
-.closing p{max-width:56rem;margin-inline:auto;font:400 .9375rem/1.75 var(--body);color:var(--ink-2)}
+.closing{border-top:1px solid var(--line);background:var(--paper);padding-block:clamp(56px,7vw,80px)}
+.closing p{max-width:46ch;border-inline-start:2px solid var(--gold);padding-inline-start:clamp(20px,2.6vw,32px);font:600 clamp(1.25rem,2vw,1.625rem)/1.4 var(--display);color:var(--fg);text-wrap:balance}
 
 /* the area cards and the company cards: TIBECO's icon cards */
 .areas{margin-top:0}
@@ -2099,7 +2095,7 @@ body{background:var(--bg);color:var(--fg)}
 .foot-col a:focus-visible{color:var(--gold)}
 .foot-legal{margin-top:clamp(28px,3.4vw,40px);padding-top:16px;border-top:1px solid var(--line);font:400 var(--t-xs)/1.6 var(--ui);color:var(--ink-3)}
 @media (max-width:1000px){ .foot{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:560px){ .foot{grid-template-columns:1fr;gap:28px} }
+
 
 /* ---- the corner: the mail button and the way back up ---- */
 .qf-btn{
@@ -2204,13 +2200,149 @@ body{background:var(--bg);color:var(--fg)}
 }
 @media (prefers-reduced-motion:reduce){ .secx-chev,.secx-btn{transition:none} }
 
+/* ==========================================================================
+   After the design review — one voice across the pages
+   ========================================================================== */
+
+/* a top scrim on every photographic opening, so the bar's lettering never
+   sits on a bright sky */
+.pagehead::after,
+.shero::after,
+.co-full .co-hero::after{
+  content:"";position:absolute;inset:0 0 auto 0;height:160px;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(15,19,25,.85) 0%,rgba(15,19,25,0) 100%);
+}
+.hero-veil{
+  background:
+    linear-gradient(180deg,rgba(15,19,25,.85) 0%,rgba(15,19,25,0) 160px),
+    linear-gradient(90deg,rgba(15,19,25,.88) 0%,rgba(15,19,25,.62) 45%,rgba(15,19,25,.25) 100%),
+    linear-gradient(0deg,rgba(15,19,25,.92) 0%,rgba(15,19,25,.2) 40%,rgba(15,19,25,.35) 100%);
+}
+/* a split or framed opening starts its photograph under the bar */
+/* a portrait original must not set the row's height: the photograph is a
+   square, capped, and the text sets the rest */
+.co-split .co-hero-img{align-self:start;width:100%;height:auto;aspect-ratio:1;max-height:560px;object-fit:cover;margin-top:var(--head-h)}
+.co-dark .co-hero-img{margin-top:calc(var(--head-h) + 24px)}
+.co-split .co-hero,
+.co-dark .co-hero{min-height:min(640px,78svh)}
+.co-dark .co-hero{background:var(--deep)}
+.co-dark .co-hero h1{color:var(--fg)}
+.co-dark .co-hero-line{color:var(--ink-2)}
+
+/* photographs that were shot on white: darkened and washed at the foot so
+   they sit in the dark canvas rather than glaring out of it */
+.area-pic,
+.pillar-pic,
+.co-story-pic,
+.prod-pic,
+.secx-co,
+.cocard-shot{position:relative}
+.area-pic img,
+.pillar-pic img,
+.co-story-pic img,
+.prod-pic img,
+.secx-co img,
+.cocard-shot img,
+.tile img{filter:brightness(.82) contrast(1.05)}
+.area-pic::after,
+.pillar-pic::after,
+.co-story-pic::after,
+.cocard-shot::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(15,19,25,0) 45%,rgba(15,19,25,.55) 100%);
+}
+.pillar-pic::after{background:linear-gradient(180deg,rgba(15,19,25,0) 45%,rgba(15,19,25,.55) 100%)}
+
+/* grids sized to what they hold, not to the richest sector */
+.areas-1{grid-template-columns:minmax(0,1fr)}
+.areas-1 .area{grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-rows:auto auto 1fr auto;column-gap:clamp(20px,3vw,40px);align-items:start}
+.areas-1 .area-pic{grid-row:1 / span 4;margin:0}
+.areas-1 .area-pic img{aspect-ratio:4/3;height:100%}
+.areas-1 .area-n,.areas-1 .area h3,.areas-1 .area p,.areas-1 .area-by{grid-column:2}
+.areas-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.areas-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cogrid-1,
+.cogrid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cogrid-1 .cocard{grid-column:1 / -1;grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-rows:none}
+.cogrid-1 .cocard-shot{display:block;height:100%}
+.cogrid-1 .cocard-shot img{aspect-ratio:3/2;height:100%;max-height:420px}
+.cogrid-1 .cocard-body{align-self:center;padding:clamp(24px,3vw,40px)}
+.cogrid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cogrid-1,.cogrid-2,.cogrid-3{justify-content:stretch}
+.tiles-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.secx-cos{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.secx-panel{min-width:0}
+
+/* the sector tabs: one width whatever the count, centred */
+.stabs{justify-content:center}
+.stabs a{flex:0 1 auto;min-width:176px}
+
+/* the drawers: wider, so a sector name holds one line; the Group's drawer
+   carries the companies */
+.drawer{width:min(88vw,360px)}
+.dr-cos{margin-top:8px;border-top:1px solid var(--line);padding-top:16px}
+.dr-h{font:600 .6875rem/1.4 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);padding:0 12px 8px}
+
+/* the slideshow tabs say they are a slideshow: the gold rule fills over the
+   five seconds a photograph stands */
+@keyframes heroprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.js .hero-dot.on::before{animation:heroprog 5s linear}
+.hero.paused .hero-dot.on::before{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){ .js .hero-dot.on::before{animation:none;transform:scaleX(1)} }
+
+/* contact: the second route, under the channels */
+.contact-alt{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font:400 var(--t-sm)/1.6 var(--body);color:var(--ink-2);max-width:40ch}
+.contact-alt a{color:var(--gold);text-decoration:none}
+.contact-alt a:hover{text-decoration:underline}
+
+/* the corner never covers the page: it hides while a drawer is open */
+html:has(.drawer.open) .qf{opacity:0;pointer-events:none}
+.qf{transition:opacity .2s}
+
+@media (max-width:900px){
+  .areas-1 .area{grid-template-columns:1fr;grid-template-rows:auto}
+  .areas-1 .area-pic{grid-row:auto}
+  .areas-1 .area-n,.areas-1 .area h3,.areas-1 .area p,.areas-1 .area-by{grid-column:auto}
+  .cogrid-1 .cocard{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .cogrid-1 .cocard-shot img{aspect-ratio:16/9;height:auto;min-height:0}
+  .areas-2,.areas-3,.cogrid-3,.tiles-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 /* ---- small screens ---- */
 @media (max-width:700px){
   :root{--head-h:76px}
   .site-head .brand img{display:none}
   .site-head .brand img.brand-mark{display:block}
-  .hb span{display:none}
-  .hb{padding:12px}
+  /* the two burgers say what they open */
+  .hb{flex-direction:column;gap:3px;padding:8px 6px;font-size:.5625rem;letter-spacing:.14em}
+  .hb-r{flex-direction:column-reverse}
+  .hb svg{width:18px;height:18px}
+  /* the corner: smaller, tighter, and out of the way until the page has moved */
+  .qf{right:16px;bottom:16px}
+  .qf-btn,.totop{width:44px;height:44px}
+  .js .qf.qf-wait{opacity:0;pointer-events:none}
+  .site-foot{padding-bottom:88px}
+  /* the companies: one to a row, the name alone */
+  .ladder,.ladder .lad-lead{grid-template-columns:1fr}
+  .lad,.lad-lead,.lad.lad-lead{aspect-ratio:16/9;grid-column:auto;grid-row:auto}
+  .lad .n{display:none}
+  .lad-sec{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .lad h3{font-size:1.375rem}
+  .lad .lad-sec{font-size:.625rem}
+  /* a crumb trail starts at the section, not at the Group */
+  .crumbs > a:first-child,.crumbs > a:first-child + span{display:none}
+  /* the sector tabs: a fade says there is more, and they snap */
+  .stabs{justify-content:flex-start;scroll-snap-type:x mandatory;-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 48px),transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 48px),transparent 100%)}
+  .stabs a{scroll-snap-align:start;min-width:0}
+  /* business areas two to a row, so a long sector is half as long */
+  .areas,.areas-2,.areas-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .area{padding:12px;gap:8px}
+  .area p{display:none}
+  .area h3{font-size:.9375rem}
+  /* the footer: two columns of links, the mark across the top */
+  .foot{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+  .foot-id{grid-column:1 / -1}
+  .foot-col a,.foot-col span{min-height:30px;font-size:var(--t-xs)}
   .hero{min-height:0}
   .hero-ring{width:320px;height:320px}
   .hero-cta{flex-direction:column;width:100%;max-width:320px}
@@ -2516,7 +2648,7 @@ and the row grows with it. */
 .catrow-n{grid-column:1;font:700 1.25rem/1 var(--display);color:var(--gold-text)}
 .catrow-plus{grid-column:2;grid-row:1;position:relative;width:14px;height:14px;justify-self:end;align-self:start;margin-top:2px}
 .catrow-plus::before,
-.catrow-plus::after{content:"";position:absolute;background:var(--gold-text);transition:transform .25s}
+.catrow-plus::after{content:"";position:absolute;background:var(--gold);transition:transform .25s}
 .catrow-plus::before{left:0;top:6px;width:14px;height:2px}
 .catrow-plus::after{left:6px;top:0;width:2px;height:14px}
 .catrow[open] .catrow-plus::after{transform:rotate(90deg)}

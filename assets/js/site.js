@@ -712,7 +712,13 @@
     top.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
     top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: still.matches ? 'auto' : 'smooth' }); });
     qf.insertBefore(top, qf.firstChild);
-    var onTop = function () { top.classList.toggle('on', window.scrollY > 400); };
+    /* on a phone the corner waits until the page has moved a screen, so the
+       opening and the first block are never covered */
+    var narrowQ = matchMedia('(max-width: 700px)');
+    var onTop = function () {
+      top.classList.toggle('on', window.scrollY > 400);
+      qf.classList.toggle('qf-wait', narrowQ.matches && window.scrollY < innerHeight * .8 && qPanel.hidden);
+    };
     addEventListener('scroll', onTop, { passive: true });
     onTop();
   }

@@ -417,6 +417,10 @@ ${cos.map(c => `        <a class="dr-link2" ${coLink(c)}${c.site ? '' : cur(coHr
   <nav class="dr-nav" aria-label="The Group">
 ${CORPORATE.map(([label, href]) => `    <a class="dr-item" href="${href}"${cur(href)}><span class="dr-name">${esc(label)}</span></a>`).join('\n')}
   </nav>
+  <nav class="dr-nav dr-cos" aria-label="Companies">
+    <p class="dr-h">Our companies</p>
+${ALL_COMPANIES.map(c => `    <a class="dr-link2" ${coLink(c)}${c.site ? '' : cur(coHref(c))}><span class="dr-co-n">${esc(c.name)}${coMark(c)}</span><span class="dr-co-r">${esc(c.role)}</span></a>`).join('\n')}
+  </nav>
   <div class="dr-foot">
     <p>${esc(SITE.blurb)} ${esc(SITE.supporting)}</p>
     <a class="btn btn-gold" href="/contact/">Contact us</a>
@@ -535,7 +539,9 @@ ${formFields(kind, p, values)}
 ${TURNSTILE ? `      <div class="turnstile" data-sitekey="${esc(TURNSTILE)}"></div>\n` : ''}      <div class="form-end">
         <button class="btn btn-dark fbtn" type="submit">${esc(F.submit)} <span aria-hidden="true">&#8594;</span></button>
         <span class="status" role="status"></span>
-        <p class="fnote">We keep what you send only to run the event and reply to you, under Qatar's data protection law.</p>
+        <p class="fnote">${kind === 'supplier'
+    ? 'We use what you send only to qualify you as a supplier and to run the events you take part in, under Qatar’s data protection law.'
+    : 'We use what you send only to answer your enquiry, under Qatar’s data protection law.'}</p>
       </div>
 ${formDone(F.ok)}
     </form>`;
@@ -611,7 +617,7 @@ function pageHead({ eyebrow, eyebrowHref, h1, lede, photo, action, action2, note
   const brow = eyebrowHref
     ? `<a class="pagehead-eyebrow" href="${eyebrowHref}">${esc(eyebrow)}</a>`
     : `<span class="pagehead-eyebrow">${esc(eyebrow)}</span>`;
-  const ctas = [action && `<a class="btn btn-light" href="${action.href}">${esc(action.label)}</a>`,
+  const ctas = [action && `<a class="btn btn-gold" href="${action.href}">${esc(action.label)}</a>`,
     action2 && `<a class="btn btn-ghost" href="${action2.href}">${esc(action2.label)}</a>`].filter(Boolean);
   return `<section class="pagehead">
   ${pic(photo, '100vw', 'class="pagehead-bg" alt="" fetchpriority="high"')}
@@ -732,7 +738,7 @@ ${areas.slice(0, 8).map(a => `            <li>${esc(a.t)}</li>`).join('\n')}${ar
 }
 
 function sectorTiles(except) {
-  return `<ul class="tiles">
+  return `<ul class="tiles${except ? ' tiles-3' : ''}">
 ${SECTORS.filter(s => s.slug !== except).map(s => tile(`href="${secHref(s)}"`, s.hero, s.name, { ar: s.ar })).join('\n')}
     </ul>`;
 }
@@ -753,7 +759,7 @@ function coCard(c) {
 }
 
 function companyRail(list, id) {
-  return `<div class="cogrid"${id ? ` id="${id}"` : ''}>
+  return `<div class="cogrid cogrid-${Math.min(list.length, 4)}"${id ? ` id="${id}"` : ''}>
 ${list.map(coCard).join('\n')}
     </div>`;
 }
@@ -775,7 +781,7 @@ function ctaBand() {
         <p>Producers and exporters looking for a route into Qatar, buyers who need supply they can rely on, and operators with a business that fits the Group.</p>
       </div>
       <div class="next-act">
-        <a class="btn btn-light" href="/contact/">Send an enquiry</a>
+        <a class="btn btn-gold" href="/contact/">Send an enquiry</a>
         <a class="btn btn-ghost" href="/supplier-portal/register/">Register as a supplier</a>
       </div>
     </div>
@@ -849,7 +855,7 @@ function portalBand(id) {
       <p>One free registration covers the Group’s ${count(nBuyers)} buying companies across ${count(nCats)} categories — sulphur and sugar to fresh produce, equipment, technology and freight. ${OPEN.length ? `${cap(count(OPEN.length))} sourcing ${OPEN.length === 1 ? 'event is' : 'events are'} open now.` : 'Register and you are invited the moment an event opens in your categories.'}</p>
     </div>
     <div class="portal-act">
-      <a class="btn btn-light" href="/supplier-portal/register/">Register as a supplier</a>
+      <a class="btn btn-gold" href="/supplier-portal/register/">Register as a supplier</a>
       <a class="btn btn-ghost" href="/supplier-portal/">How the portal works</a>
     </div>
   </div>
@@ -1032,9 +1038,10 @@ ${WHY.map((x, i) => `        <li class="why-item">
 <section class="section deep" id="sectors" aria-labelledby="secTitle">
   <div class="wrap">
     <div class="tiles-head rise">
-      <h2 id="secTitle" class="caps">Core Business Sectors</h2>
+      <p class="eyebrow">Our sectors</p>
+      <h2 id="secTitle">Seven sectors, one way of working</h2>
       <p class="ar" lang="ar">القطاعات الرئيسية للمجموعة</p>
-      <p>${cap(count(SECTORS.length))} sectors, ${count(ALL_COMPANIES.length)} companies. Open a sector to see the companies under it; each has a page of its own.</p>
+      <p>Open a sector to see the companies under it and the business areas it works in. Each has a page of its own.</p>
     </div>
     ${sectorExplorer()}
   </div>
@@ -1043,7 +1050,8 @@ ${WHY.map((x, i) => `        <li class="why-item">
 <section class="section" id="companies" aria-labelledby="coTitle">
   <div class="wrap">
     <div class="tiles-head rise">
-      <h2 id="coTitle" class="caps">Group Companies</h2>
+      <p class="eyebrow">Our companies</p>
+      <h2 id="coTitle">Five companies, each in its own market</h2>
       <p class="ar" lang="ar">شركات المجموعة</p>
       <p>Each runs in its own market with its own customers. TIBECO Group, the largest, has a website of its own.</p>
     </div>
@@ -1200,12 +1208,11 @@ function pageCompany(c) {
      bar and footer stay the same on every one, so it is still one group. */
   const others = ALL_COMPANIES.filter(x => x.slug !== c.slug);
   const look = c.look || 'full';
-  const vars = [
-    c.accent && '--co:' + c.accent,
-    c.accentText && '--co-text:' + c.accentText,
-    c.tint && '--co-tint:' + c.tint,
-    c.accentOn && '--co-on:' + c.accentOn
-  ].filter(Boolean).join(';');
+  /* One accent for every company — the Group's gold. The per-company colours
+     in data/site.js (accent, accentText, tint) stay recorded but are not
+     rendered: five companies in four colours read as four templates, not a
+     holding group. */
+  const vars = '';
 
   const offerTitle = c.products && c.products.length
     ? (c.productsTitle || 'What we trade <span class="soft">today</span>')
@@ -1508,9 +1515,10 @@ function pageSectorsIndex() {
     + `<section class="section deep" aria-labelledby="secAllTitle">
   <div class="wrap">
     <div class="tiles-head rise">
-      <h2 id="secAllTitle" class="caps">Core Business Sectors</h2>
+      <p class="eyebrow">Our sectors</p>
+      <h2 id="secAllTitle">Open a sector, see what is in it</h2>
       <p class="ar" lang="ar">القطاعات الرئيسية للمجموعة</p>
-      <p>Open a sector to see the companies under it and the business areas it works in.</p>
+      <p>The companies under each sector and the business areas it works in. Each sector has a page of its own.</p>
     </div>
     ${sectorExplorer()}
   </div>
@@ -1545,7 +1553,7 @@ function pageSector(s) {
     const c = a.company;
     return `      <article class="area rise d${k % 4}">
 ${a.img ? `        <span class="area-pic">${pic(a.img, '(max-width:700px) 100vw, (max-width:1100px) 50vw, 25vw', `alt="${esc(a.t)}" loading="lazy"`)}</span>\n`
-    : `        <span class="area-mark">${icon(SECTOR_ICON[s.slug] || 'markets')}</span>\n`}        <span class="area-n">${num(k)}</span>
+    : ''}        <span class="area-n">${num(k)}</span>
         <h3>${esc(a.t)}</h3>
         <p>${esc(a.d)}</p>
         <a class="area-by" ${coLink(c)}>through ${esc(c.name)}${coMark(c)}</a>
@@ -1613,7 +1621,7 @@ ${buys ? '  <a href="#portal">Supplier Portal</a>\n' : ''}  <a href="#sectors">O
       <span class="rule c" aria-hidden="true"></span>
       <p>${cap(plural(areas.length, 'area', 'areas'))} the Group works in here, through ${esc(through)}.</p>
     </div>
-    <div class="areas">
+    <div class="areas areas-${Math.min(areas.length, 4)}">
 ${areas.map(areaCard).join('\n')}
     </div>
   </div>
@@ -1844,7 +1852,7 @@ function pageSuppliers() {
   return head({
     title: `Supplier Portal · ${SITE.name}`,
     desc: 'What the Lusail Corp companies buy, what is open to quote now, and the one free registration that covers all of them.',
-    url: '/supplier-portal/', image: 'hero-sector-trading',
+    url: '/supplier-portal/', image: 'panel-ocean-freight',
     schema: graph(crumbs([{ name: 'Supplier Portal' }]), {
       '@type': 'ItemList', name: 'Open sourcing events',
       itemListElement: OPEN.map((o, i) => ({ '@type': 'ListItem', position: i + 1, name: `${o.ref} — ${o.title}`, url: abs('/supplier-portal/opportunities/') }))
@@ -1858,7 +1866,7 @@ function pageSuppliers() {
       eyebrow: 'Supplier Portal',
       h1: 'Supply the Group. Register once.',
       lede: 'One free registration covers TIBECO Group, Lusail Commercial and ROMA Commercial — sulphur and sugar to fresh produce, equipment, technology and freight.',
-      photo: 'hero-sector-trading',
+      photo: 'panel-ocean-freight',
       action: { href: '/supplier-portal/register/', label: 'Register as a supplier' },
       action2: { href: '/supplier-portal/opportunities/', label: 'View open opportunities' },
       note: soon.length ? `Next to close <a href="${regUrl(soon[0])}"><span>${esc(soon[0].ref)}</span> ${esc(soon[0].title)}</a> <time datetime="${dohaDate(soon[0].closes).toISOString()}">${fmtDoha(dohaDate(soon[0].closes), false)}</time>` : ''
@@ -2152,7 +2160,9 @@ function pageContact() {
         <div><dt>Phone</dt><dd><a href="tel:${SITE.contact.phone.replace(/\s/g, '')}">${esc(SITE.contact.phone)}</a></dd></div>
         <div><dt>Location</dt><dd>${esc(SITE.contact.location)}</dd></div>
         <div><dt>Where your message goes</dt><dd>Choose an area of interest in the form and your message goes straight to the company that can answer it, not to a general inbox.</dd></div>
+        <div><dt>When we reply</dt><dd>Within two working days. Sunday to Thursday, 8:00 to 17:00 Doha time.</dd></div>
       </dl>
+      <p class="contact-alt">Supplying one of our companies? <a href="/supplier-portal/">The Supplier Portal</a> is the faster route: one registration covers every company.</p>
     </div>
     ${formBlock('enquiry', 'f', 'fcard rise d1')}
   </div>

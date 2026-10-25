@@ -24,6 +24,19 @@ and should be confirmed:
   "Investment | Trade | Supply | Services" under the Group's name were written
   for this redesign (`SITE.descriptor`, `SITE.fields`).
 
+### 0. Photography: twelve pictures that are the Group's own *— needs you*
+
+A design review of every page found the stock photography to be the
+site's weakest layer: the same pictures recur (the executive at the window
+for TIBECO, the sunset port for Trading, Lusail Commercial and the Supplier
+Portal, the pink-sky port on three pages), several product shots were taken
+on white and glare out of the dark canvas, and none of it is the Group's.
+The site now darkens and washes those pictures so they sit in the page, but
+treatment is not a cure. What is wanted: one photograph per sector (7) and
+per company (5), shot or licensed for the Group, plus a small pool for the
+business-area cards. Each goes in with one line in
+`build/imageroles.js` and `npm run images`.
+
 ### 0. Product origins are indicative — confirm them before launch *— blocking*
 
 Every product on the Lusail Commercial and ROMA pages now shows **"Sourced

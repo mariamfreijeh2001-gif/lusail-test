@@ -102,6 +102,44 @@ on purpose:
 | Two asks at the foot of the home (the portal band, then the footer) | One closing band with both routes: enquiry, or the Supplier Portal |
 | Preloader, partners and certificates marquees | Left out: nothing to show yet, and an artificial delay is not a feature |
 
+## The design review, and what it changed
+
+With the site built, every page was screenshotted at 1440 and 390 — full
+page, first screen and the interactive states — and reviewed as a designer
+would. The verdict: a coherent system that clears the reference on
+structure, with second-order faults repeated across pages. What changed:
+
+- **One button hierarchy.** Wherever two actions stood together, the first
+  is gold and the second a gold-tinted outline. The dark-grey filled button,
+  which read as disabled on these grounds, is gone.
+- **One accent.** ROMA's green, Cavallo's steel blue and Nero's tan made five
+  companies look like four templates; every company is gold now. The
+  colours stay recorded in `data/site.js`, unrendered.
+- **Grids sized to what they hold.** A sector with one business area shows
+  it as a wide feature card; two show as two halves; a single company fills
+  the row with its photograph beside its name — not one card and three empty
+  columns.
+- **Photographs shot on white** are darkened and washed at the foot so they
+  sit in the canvas.
+- **A top scrim on every photographic opening**, so the bar's lettering never
+  sits on a bright sky; split openings start their photograph under the bar.
+- **The phone**: the corner button is smaller, waits until the page has
+  moved, and hides while a drawer is open; the company tiles run one to a
+  row with the name alone; business areas run two to a row, which halves
+  the longest page; the footer's links sit in two columns; the two burgers
+  are labelled; the sector tabs fade at the edge and snap.
+- **Copy**: the forms' footnote said "to run the event" everywhere; it now
+  says what each form is for. The sector closing line and company quotes are
+  set left with a gold rule, at a reading measure.
+- **Headings** are all sentence-case Playfair with a small gold eyebrow;
+  the two tracked-uppercase ones are gone.
+- **The Group drawer** carries the five companies, so its middle is not
+  empty; the drawers are 360px so a sector name holds one line; the
+  slideshow tabs fill in gold over the five seconds a photograph stands.
+
+What the review asked for that needs the Group: its own photography
+(TODO, item 0).
+
 ## What was kept Lusail's
 
 - **The gold** is the logo's `#D3A750`, not TIBECO's amber `hsl(38 90% 55%)`.
