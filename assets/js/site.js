@@ -75,9 +75,46 @@
         else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
       });
     });
+    /* a sector in the drawer opens to the companies under it; one open at a
+       time, and the sector of the page you are on starts open */
+    $$('.dr-sec').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var grp = btn.parentNode, open = !grp.classList.contains('open');
+        $$('.dr-grp', grp.parentNode).forEach(function (g) {
+          var on = open && g === grp;
+          g.classList.toggle('open', on);
+          g.querySelector('.dr-sec').setAttribute('aria-expanded', String(on));
+          g.querySelector('.dr-list').hidden = !on;
+        });
+      });
+    });
     scrim.addEventListener('click', function () { if (openD) setDrawer(openD, false); });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && openD) { var b = openD.btn; setDrawer(openD, false); b.focus(); }
+    });
+  }
+
+  /* ---------- the sector explorer -------------------------------------------
+     The seven sectors down the left; the one chosen opens on the right with
+     its companies and business areas. One open at a time, and a tap on the
+     open one on a phone closes it so the list is readable again. */
+
+  var secx = $('#secx');
+  if (secx) {
+    var sx = $$('.secx-item', secx);
+    var narrow = matchMedia('(max-width: 900px)');
+    var openSx = function (it) {
+      sx.forEach(function (x) {
+        var on = x === it;
+        x.classList.toggle('on', on);
+        x.querySelector('.secx-btn').setAttribute('aria-expanded', String(on));
+        x.querySelector('.secx-panel').hidden = !on;
+      });
+    };
+    sx.forEach(function (it) {
+      it.querySelector('.secx-btn').addEventListener('click', function () {
+        if (narrow.matches && it.classList.contains('on')) openSx(null); else openSx(it);
+      });
     });
   }
 

@@ -30,6 +30,37 @@ inferred.
 | **Supplier Portal** | A portal strip under the bar (Supplier Portal · بوابة الموردين · Opportunities · How it works · Requirements · Register); the home with "Supply the Group. Bid in one place.", a "Closing soon" card, how it works as four numbered cards, categories, the opportunities table, requirements and principles, fraud notice and support. Already carried over to this site in an earlier pass. |
 | **Arabic** | Every section heading carries an Arabic sub-label in the accent; platforms and areas carry Arabic names. |
 
+## Mannai Corporation, the reference behind the reference
+
+Management also pointed at <https://mannai.com/>. It could not be opened from
+the build environment (the network policy refuses the host), but two things
+are known about it with confidence:
+
+1. **TIBECO's site is built on Mannai's.** TIBECO's source names its colour
+   tokens `mannai-dark`, `mannai-navy` and `mannai-gold`, and carries
+   redirects for the Mannai activities it started from (`/activities/*`,
+   `/platforms/automotive`, `jewellery`, `travel`, `logistics`, `geo`,
+   `retail`, `facility`). So the grammar carried into this site — the dark
+   grounds, the gold, the fixed bar with two menus and the mark in the
+   middle, the activities grid, the executive team and news pages — is
+   Mannai's grammar as TIBECO adopted it.
+2. **Mannai's structure, from its search-index listing:** the homepage says
+   the Corporation "is broadly divided into two key activities, Trade and
+   Services"; a "What We Do" section lists its activities (Mannai
+   Technologies, Automotive, Jewellery, Energy & Industrial Markets,
+   Geological and Material Testing, Travel, Logistics, Engineering), each at
+   `/activities/<slug>/`; divisions sit under activities (Automotive has a
+   passenger-vehicle division and a heavy-equipment division; ICT has Mannai
+   Networks, InfoTech and TechHub); and the corporate pages are Executive
+   Team, News and Contact.
+
+What was taken from it here: **an activity opens to the divisions under it.**
+That is the request "a sector we can open and see the companies under it",
+and it is built twice — in the Sectors drawer, where each sector expands to
+its overview and its companies, and in the **sector explorer** on the home
+page and the sectors index, where the open sector shows its photograph, its
+line, its companies and its business areas.
+
 ## How TIBECO's structure maps onto Lusail Corp
 
 | TIBECO Group | Lusail Corp | Where |
@@ -37,9 +68,9 @@ inferred.
 | "ELITE INTERNATIONAL BUSINESS GROUP" | "DIVERSIFIED QATARI BUSINESS GROUP" | `SITE.descriptor` |
 | "Commerce \| Investment \| Services" | "Investment \| Trade \| Supply \| Services" | `SITE.fields` |
 | **Three platforms** — Commerce, Investments, Services | **Seven sectors** | `SECTORS` |
-| "☰ Platforms" drawer: platforms → areas | "☰ Sectors" drawer: the seven sectors, with icon, name and Arabic | `header()` |
+| "☰ Platforms" drawer: a platform expands to its areas | "☰ Sectors" drawer: a sector expands to its overview and its companies | `header()` |
 | "Corporate ☰" drawer: Home, Who We Are, Careers, Supplier Portal, Contact, profile PDF, LinkedIn | "Corporate ☰" drawer: Home, About Us, Work With Us, Supplier Portal, Contact, the Contact button, LinkedIn when set | `CORPORATE` |
-| Core Business Platforms: header row + 4-column image tiles per platform | Core Business Sectors: seven image tiles; Group Companies: five tiles | `sectorTiles()`, `companyTiles()` |
+| Core Business Platforms: header row + 4-column image tiles per platform | Core Business Sectors: the sector explorer (open a sector, see its companies and areas); Group Companies: five tiles | `sectorExplorer()`, `companyTiles()` |
 | A page per platform (× 5 areas = 15 pages) | A page per sector (7), each listing its business areas | `pageSector()` |
 | Business areas on a platform page | Business areas on a sector page — each a product or service of a company in the sector, tagged with `in: [...]` | `areasOf()` |
 | Corporate Statement / Why TIBECO / Institutional Strength | The same three blocks, from the Group's own copy | `pageHome()` |

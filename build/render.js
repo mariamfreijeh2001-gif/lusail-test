@@ -388,11 +388,24 @@ function header(current) {
 <aside class="drawer drawer-l" id="drawerSec" aria-label="Sectors">
   <button class="dr-close" type="button" data-close>${X_ICON} Sectors</button>
   <nav class="dr-nav" aria-label="Sectors">
-${SECTORS.map(s => `    <a class="dr-item" href="${secHref(s)}"${cur(secHref(s))}>
-      ${icon(SECTOR_ICON[s.slug] || 'markets')}
-      <span class="dr-name">${esc(s.name)}</span>
-      <span class="dr-sub" lang="ar">${esc(s.ar || '')}</span>
-    </a>`).join('\n')}
+${SECTORS.map(s => {
+    /* a sector opens to the companies under it, the way TIBECO's platforms
+       open to their areas; the sector of the page you are on starts open */
+    const cos = companiesOf(s);
+    const here = current === secHref(s) || cos.some(c => !c.site && current === coHref(c));
+    return `    <div class="dr-grp${here ? ' open' : ''}">
+      <button class="dr-item dr-sec" type="button" aria-expanded="${here}" aria-controls="drg-${s.slug}">
+        ${icon(SECTOR_ICON[s.slug] || 'markets')}
+        <span class="dr-name">${esc(s.name)}</span>
+        <span class="dr-sub" lang="ar">${esc(s.ar || '')}</span>
+        <span class="dr-chev" aria-hidden="true">${CARET}</span>
+      </button>
+      <div class="dr-list" id="drg-${s.slug}"${here ? '' : ' hidden'}>
+        <a class="dr-link2 dr-over" href="${secHref(s)}"${cur(secHref(s))}>Sector overview <span aria-hidden="true">&#8594;</span></a>
+${cos.map(c => `        <a class="dr-link2" ${coLink(c)}${c.site ? '' : cur(coHref(c))}><span class="dr-co-n">${esc(c.name)}${coMark(c)}</span><span class="dr-co-r">${esc(c.role)}</span></a>`).join('\n')}
+      </div>
+    </div>`;
+  }).join('\n')}
     <a class="dr-item dr-all" href="/sectors/"${cur('/sectors/')}>
       <span class="dr-name">All sectors <span aria-hidden="true">&#8594;</span></span>
       <span class="dr-sub">${cap(count(SECTORS.length))} sectors, ${count(ALL_COMPANIES.length)} companies</span>
@@ -642,6 +655,61 @@ ${ext ? `        <span class="tile-mark" aria-hidden="true">&#8599;</span>\n` : 
           <span class="tile-n">${esc(name)}${ext ? '<span class="vh"> — opens tibecogroup.com in a new tab</span>' : ''}</span>
 ${sub ? `          <span class="tile-s"${sub.ar ? ' lang="ar"' : ''}>${esc(sub.ar || sub)}</span>\n` : ''}        </span>
       </a></li>`;
+}
+
+/* The companies in a sector, as the flat list knows them (with their sector
+   name and role), own companies first. */
+function companiesOf(s) {
+  return s.companies.map(c => ALL_COMPANIES.find(x => x.slug === c.slug) || c);
+}
+
+/* The sector explorer: the seven sectors down the left, and the open one on
+   the right with its photograph, its line, the companies under it and its
+   business areas. Open a sector and see what is in it — the structure of the
+   Group in one component, and the way TIBECO's and Mannai's menus work.
+   Without script the first sector stands open and each button still reads
+   as a heading; on a phone it is an accordion. */
+function sectorExplorer() {
+  return `<div class="secx" id="secx" style="--n:${SECTORS.length}">
+${SECTORS.map((s, i) => {
+    const cos = companiesOf(s);
+    const areas = areasOf(s);
+    return `      <div class="secx-item${i === 0 ? ' on' : ''}">
+        <button class="secx-btn" type="button" id="secxt-${s.slug}" aria-expanded="${i === 0}" aria-controls="secxp-${s.slug}">
+          <span class="secx-n">${num(i)}</span>
+          <span class="secx-name">${esc(s.name)}</span>
+          <span class="secx-ar" lang="ar">${esc(s.ar || '')}</span>
+          <span class="secx-count">${cos.length === 1 && cos[0].site ? 'through ' + esc(cos[0].name) : plural(cos.length, 'company', 'companies')}</span>
+          <span class="secx-chev" aria-hidden="true">${CARET}</span>
+        </button>
+        <div class="secx-panel" id="secxp-${s.slug}" aria-labelledby="secxt-${s.slug}"${i === 0 ? '' : ' hidden'}>
+          <figure class="secx-pic">
+            ${pic(s.hero, '(max-width:900px) 100vw, 58vw', 'alt="" loading="lazy"')}
+            <figcaption>
+              <span class="eyebrow">Sector ${num(i)}</span>
+              <h3>${esc(s.name)}</h3>
+            </figcaption>
+          </figure>
+          <p class="secx-say">${esc(s.short)}</p>
+          <p class="secx-h">${cos.length === 1 ? 'The company' : 'Companies'} in this sector</p>
+          <ul class="secx-cos">
+${cos.map(c => `            <li><a class="secx-co" ${coLink(c)}>
+              ${pic(c.hero, '(max-width:600px) 100vw, 240px', 'alt="" loading="lazy"')}
+              <span class="secx-co-b">
+                <span class="secx-co-n">${esc(c.name)}${coMark(c)}</span>
+                <span class="secx-co-r">${esc(c.role)}</span>
+              </span>
+            </a></li>`).join('\n')}
+          </ul>
+${areas.length ? `          <p class="secx-h">Business areas</p>
+          <ul class="chips">
+${areas.slice(0, 8).map(a => `            <li>${esc(a.t)}</li>`).join('\n')}${areas.length > 8 ? `\n            <li class="chip-more">+${areas.length - 8} more</li>` : ''}
+          </ul>
+` : ''}          <a class="btn btn-gold" href="${secHref(s)}">Explore the sector <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>`;
+  }).join('\n')}
+    </div>`;
 }
 
 function sectorTiles(except) {
@@ -935,9 +1003,9 @@ ${WHY.map(w => `        <p class="say"><strong>${esc(w.t)}.</strong> ${esc(w.d)}
     <div class="tiles-head rise">
       <h2 id="secTitle" class="caps">Core Business Sectors</h2>
       <p class="ar" lang="ar">القطاعات الرئيسية للمجموعة</p>
-      <p>${cap(count(SECTORS.length))} sectors, ${count(ALL_COMPANIES.length)} companies. Each sector serves a market the Group can see from Qatar, and each has a page of its own.</p>
+      <p>${cap(count(SECTORS.length))} sectors, ${count(ALL_COMPANIES.length)} companies. Open a sector to see the companies under it; each has a page of its own.</p>
     </div>
-    ${sectorTiles()}
+    ${sectorExplorer()}
   </div>
 </section>
 
@@ -1265,7 +1333,7 @@ ${figs.map((f, i) => `      <div class="rise d${Math.min(i, 3)}"><dt>${esc(f.k)}
       { name: c.name }
     ]))
   })
-    + header('/sectors/')
+    + header(coHref(c))
     + `<div class="co co-${look} co-${c.slug}" style="${vars}">
 
 <section class="co-hero">
@@ -1412,8 +1480,9 @@ function pageSectorsIndex() {
     <div class="tiles-head rise">
       <h2 id="secAllTitle" class="caps">Core Business Sectors</h2>
       <p class="ar" lang="ar">القطاعات الرئيسية للمجموعة</p>
+      <p>Open a sector to see the companies under it and the business areas it works in.</p>
     </div>
-    ${sectorTiles()}
+    ${sectorExplorer()}
   </div>
 </section>
 
@@ -1438,7 +1507,7 @@ function pageSectorsIndex() {
 function pageSector(s) {
   const i = SECTORS.indexOf(s);
   const areas = areasOf(s);
-  const cos = s.companies.map(c => ALL_COMPANIES.find(x => x.slug === c.slug) || c);
+  const cos = companiesOf(s);
   const names = s.companies.map(c => c.name);
   const through = names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
   const buys = cos.some(c => SUPPLY.some(x => x.buyers.includes(c.slug)));
@@ -1462,7 +1531,7 @@ ${a.img ? `        <span class="area-pic">${pic(a.img, '(max-width:700px) 100vw,
       itemListElement: s.companies.map((c, k) => ({ '@type': 'ListItem', position: k + 1, name: c.name, url: c.site || abs(coHref(c)) }))
     })
   })
-    + header('/sectors/')
+    + header(secHref(s))
     + `<section class="phero">
   ${pic(s.hero, '100vw', 'class="phero-bg" alt="" fetchpriority="high"')}
   <div class="phero-say">
