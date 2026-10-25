@@ -737,12 +737,6 @@ ${SECTORS.filter(s => s.slug !== except).map(s => tile(`href="${secHref(s)}"`, s
     </ul>`;
 }
 
-function companyTiles() {
-  return `<ul class="tiles tiles-5">
-${ALL_COMPANIES.map(c => tile(coLink(c), c.hero, c.name, c.role, !!c.site)).join('\n')}
-    </ul>`;
-}
-
 /* The card. Every company listing on the site is made of these. */
 function coCard(c) {
   /* a company can sit in more than one sector, so this is a space-separated
@@ -818,9 +812,8 @@ ${SECTORS.map((s, i) => `      <a class="secstrip-a" href="${secHref(s)}">
 }
 
 /* The seven sectors as cards: a photograph, the number and the mark, the
-   name, its line and how many companies work in it. One component for the
-   home page, the sectors index and the foot of a sector page, so they
-   cannot disagree. */
+   name, its line and how many companies work in it. Used at the foot of a
+   sector page for the other six. */
 function sectorCards(current) {
   const list = current ? SECTORS.filter(s => s.slug !== current) : SECTORS;
   /* all seven: four across with the first card wide, so the rows fill;
@@ -977,13 +970,19 @@ function pageHome() {
   })
     + header('/')
     + `<section class="hero" id="hero" aria-label="${esc(SITE.name)}">
-${HERO_SLIDES.map((sl, i) => pic(sl.img, '100vw', `class="hero-slide${i === 0 ? ' on' : ''}" alt=""${i === 0 ? ' fetchpriority="high"' : ' loading="lazy"'}`)).map(x => '  ' + x).join('\n')}
+${HERO_SLIDES.map((sl, i) => {
+    /* only the first photograph is fetched with the page; the others are
+       named in data- attributes and fetched by the script just before they
+       are shown, so the opening costs one picture, not six */
+    const img = pic(sl.img, '100vw', `class="hero-slide${i === 0 ? ' on' : ''}" alt=""${i === 0 ? ' fetchpriority="high"' : ''}`);
+    return i === 0 ? img : img.replace(' src="', ' data-src="').replace(' srcset="', ' data-srcset="');
+  }).map(x => '  ' + x).join('\n')}
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <div class="hero-say">
       <p class="hero-eyebrow">${esc(SITE.descriptor)} <span aria-hidden="true">&middot;</span> Doha, Qatar</p>
       <h1>Building Businesses.<br>Creating <em>Value</em>.</h1>
-      <p class="hero-lede">${esc(SITE.fields)}</p>
+      <p class="hero-lede">${esc(SITE.lede)}</p>
       <div class="hero-cta">
         <a class="btn btn-gold" href="/sectors/">Explore our sectors</a>
         <a class="btn btn-ghost" href="/about/">About the Group</a>
@@ -994,6 +993,7 @@ ${HERO_SLIDES.map((sl, i) => pic(sl.img, '100vw', `class="hero-slide${i === 0 ? 
     <div class="hero-tabs" role="group" aria-label="Photographs">
 ${HERO_SLIDES.map((sl, i) => `      <button class="hero-dot${i === 0 ? ' on' : ''}" type="button" aria-pressed="${i === 0}" aria-label="Photograph ${i + 1}: ${esc(sl.label)}"><span class="hero-tab-n">${num(i)}</span><span class="hero-tab-t">${esc(sl.label)}</span></button>`).join('\n')}
     </div>
+    <button class="hero-pause" type="button" id="heroPause" aria-pressed="false" aria-label="Pause the slideshow"><span class="hp-pause" aria-hidden="true"></span><span class="hp-play" aria-hidden="true"></span></button>
   </div>
 </section>
 
@@ -1047,7 +1047,7 @@ ${WHY.map((x, i) => `        <li class="why-item">
       <p class="ar" lang="ar">شركات المجموعة</p>
       <p>Each runs in its own market with its own customers. TIBECO Group, the largest, has a website of its own.</p>
     </div>
-    ${companyTiles()}
+    ${companyLadder()}
   </div>
 </section>
 

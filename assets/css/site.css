@@ -1853,7 +1853,21 @@ html:has(.drawer.open) .site-head{
 .hero-lede{font:400 clamp(1rem,1.4vw,1.25rem)/1.5 var(--body);color:var(--ink-2);letter-spacing:.04em}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
 /* the photographs, named: a row of tabs along the foot, the live one filling in gold */
-.hero-foot{position:relative;z-index:1;padding-bottom:28px}
+.hero-foot{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:start;padding-bottom:28px}
+/* pause and play, as two drawn marks on one square button */
+.hero-pause{
+  position:relative;width:40px;height:40px;margin-top:16px;border:1px solid rgba(248,250,252,.25);border-radius:var(--radius-s);
+  background:rgba(15,19,25,.5);cursor:pointer;color:var(--fg);transition:border-color .2s,background .2s;
+}
+.hero-pause:hover,
+.hero-pause:focus-visible{border-color:var(--gold);background:rgba(15,19,25,.8)}
+.hp-pause,
+.hp-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.hp-pause{width:10px;height:12px;border-inline:3px solid currentColor}
+.hp-play{display:none;width:0;height:0;margin-left:1px;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:10px solid currentColor}
+.hero.paused .hp-pause{display:none}
+.hero.paused .hp-play{display:block}
+@media (max-width:560px){ .hero-pause{margin-top:-8px} }
 .hero-tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;border-top:1px solid rgba(248,250,252,.15);padding-top:16px}
 .hero-dot{
   position:relative;display:grid;gap:6px;justify-items:start;text-align:left;

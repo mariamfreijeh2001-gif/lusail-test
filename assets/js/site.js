@@ -125,20 +125,41 @@
 
   var hero = $('#hero');
   if (hero) {
-    var slides = $$('.hero-slide', hero), dots = $$('.hero-dot', hero);
-    var cur = 0, timer;
+    var slides = $$('.hero-slide', hero), dots = $$('.hero-dot', hero), pauseBtn = $('#heroPause');
+    var cur = 0, timer, paused = false;
+    /* a photograph is fetched the first time it is needed, and the one after
+       it a moment later, so the fade never waits on the network */
+    var load = function (el) {
+      if (!el || !el.dataset.src) return;
+      if (el.dataset.srcset) { el.srcset = el.dataset.srcset; el.removeAttribute('data-srcset'); }
+      el.src = el.dataset.src; el.removeAttribute('data-src');
+    };
     var show = function (i) {
       cur = (i + slides.length) % slides.length;
+      load(slides[cur]);
       slides.forEach(function (el, k) { el.classList.toggle('on', k === cur); });
       dots.forEach(function (el, k) { el.classList.toggle('on', k === cur); el.setAttribute('aria-pressed', String(k === cur)); });
+      setTimeout(function () { load(slides[(cur + 1) % slides.length]); }, 800);
     };
+    var stop = function () { clearInterval(timer); timer = null; };
     var start = function () {
-      if (still.matches || slides.length < 2) return;
-      clearInterval(timer);
+      stop();
+      if (paused || still.matches || slides.length < 2 || document.hidden) return;
       timer = setInterval(function () { show(cur + 1); }, 5000);
     };
     dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); start(); }); });
-    document.addEventListener('visibilitychange', function () { if (document.hidden) clearInterval(timer); else start(); });
+    if (pauseBtn) {
+      /* under reduced motion nothing turns, so there is nothing to pause */
+      if (still.matches) pauseBtn.hidden = true;
+      pauseBtn.addEventListener('click', function () {
+        paused = !paused;
+        pauseBtn.setAttribute('aria-pressed', String(paused));
+        pauseBtn.setAttribute('aria-label', paused ? 'Play the slideshow' : 'Pause the slideshow');
+        hero.classList.toggle('paused', paused);
+        start();
+      });
+    }
+    document.addEventListener('visibilitychange', start);
     show(0);
     start();
   }

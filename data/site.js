@@ -45,6 +45,9 @@ const SITE = {
   /* the line under the name on the home page, the way TIBECO's reads
      "Commerce | Investment | Services" */
   fields: 'Investment | Trade | Supply | Services',
+  /* the sentence under the statement on the home page: what the Group is,
+     in one breath */
+  lede: 'A diversified corporate group based in the State of Qatar, building and running businesses in investment, trading, supply and distribution, technology, energy and everyday services.',
   /* the Arabic that sits under the Group's name where TIBECO's site puts
      its own Arabic sub-labels */
   nameAr: 'لوسيل كورب',
