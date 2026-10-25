@@ -382,7 +382,7 @@ function header(current) {
   return `<header class="site-head" id="top">
   <a class="hb hb-l" href="/sectors/" id="drawerSecBtn" aria-expanded="false" aria-controls="drawerSec">${BURGER}<span>Sectors</span></a>
   <a class="brand" href="/" aria-label="${esc(SITE.name)} — home">${LOGO}${MARK}</a>
-  <a class="hb hb-r" href="/about/" id="drawerCorpBtn" aria-expanded="false" aria-controls="drawerCorp"><span>Corporate</span>${BURGER}</a>
+  <a class="hb hb-r" href="/about/" id="drawerCorpBtn" aria-expanded="false" aria-controls="drawerCorp"><span>The Group</span>${BURGER}</a>
 </header>
 <div class="scrim" id="scrim"></div>
 <aside class="drawer drawer-l" id="drawerSec" aria-label="Sectors">
@@ -412,9 +412,9 @@ ${cos.map(c => `        <a class="dr-link2" ${coLink(c)}${c.site ? '' : cur(coHr
     </a>
   </nav>
 </aside>
-<aside class="drawer drawer-r" id="drawerCorp" aria-label="Corporate">
-  <button class="dr-close" type="button" data-close>Corporate ${X_ICON}</button>
-  <nav class="dr-nav" aria-label="Corporate">
+<aside class="drawer drawer-r" id="drawerCorp" aria-label="The Group">
+  <button class="dr-close" type="button" data-close>The Group ${X_ICON}</button>
+  <nav class="dr-nav" aria-label="The Group">
 ${CORPORATE.map(([label, href]) => `    <a class="dr-item" href="${href}"${cur(href)}><span class="dr-name">${esc(label)}</span></a>`).join('\n')}
   </nav>
   <div class="dr-foot">
@@ -564,17 +564,36 @@ function quickForm() {
 }
 
 function footer() {
+  const social = SOCIAL();
   return `</main>
 <footer class="site-foot">
-  <div class="wrap foot">
-    <a class="brand" href="/" aria-label="${esc(SITE.name)} — home">${LOGO_DARK}</a>
-    <p class="foot-links">
-      <span>© ${esc(SITE.name)} | All Rights Reserved ${new Date().getFullYear()}</span>
-      <a href="/about/">About Us</a>
-      <a href="/partnerships/">Work With Us</a>
-      <a href="/supplier-portal/">Supplier Portal</a>
-      <a href="/contact/">Contact Us</a>
-    </p>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-id">
+        <a class="brand" href="/" aria-label="${esc(SITE.name)} — home">${LOGO_DARK}</a>
+        <p>${esc(SITE.tagline)}<br>${esc(SITE.blurb)}</p>
+      </div>
+      <nav class="foot-col" aria-label="Sectors">
+        <p class="foot-h">Sectors</p>
+${SECTORS.map(s => `        <a href="${secHref(s)}">${esc(s.name)}</a>`).join('\n')}
+      </nav>
+      <nav class="foot-col" aria-label="The Group">
+        <p class="foot-h">The Group</p>
+        <a href="/about/">About Us</a>
+        <a href="/partnerships/">Work With Us</a>
+        <a href="/supplier-portal/">Supplier Portal</a>
+        <a href="/supplier-portal/opportunities/">Open Opportunities</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+      <div class="foot-col">
+        <p class="foot-h">Reach us</p>
+        <a href="mailto:${SITE.contact.email}">${esc(SITE.contact.email)}</a>
+        <a href="tel:${SITE.contact.phone.replace(/\s/g, '')}">${esc(SITE.contact.phone)}</a>
+        <span>${esc(SITE.contact.location)}</span>
+${social.map(([label, href]) => `        <a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>`).join('\n')}
+      </div>
+    </div>
+    <p class="foot-legal">&copy; ${esc(SITE.name)} ${new Date().getFullYear()}. All rights reserved.</p>
   </div>
 </footer>
 ${quickForm()}
@@ -774,7 +793,14 @@ function ctaBand() {
 
 /* The photographs behind the Group's name on the home page, in the order
    they turn: the Group, then one for each of the fields it works in. */
-const HERO_SLIDES = ['hero-doha', 'hero-sector-investments', 'hero-sector-trading', 'hero-sector-supply-distribution', 'hero-sector-technology', 'hero-sector-energy-industrial'];
+const HERO_SLIDES = [
+  { img: 'hero-doha', label: 'The Group' },
+  { img: 'hero-sector-investments', label: 'Investments' },
+  { img: 'hero-sector-trading', label: 'Trading' },
+  { img: 'hero-sector-supply-distribution', label: 'Supply & Distribution' },
+  { img: 'hero-sector-technology', label: 'Technology' },
+  { img: 'hero-sector-energy-industrial', label: 'Energy & Industrial' }
+];
 
 /* ---------- the sectors, wherever they are listed -------------------------- */
 
@@ -951,49 +977,54 @@ function pageHome() {
   })
     + header('/')
     + `<section class="hero" id="hero" aria-label="${esc(SITE.name)}">
-${HERO_SLIDES.map((name, i) => pic(name, '100vw', `class="hero-slide${i === 0 ? ' on' : ''}" alt=""${i === 0 ? ' fetchpriority="high"' : ' loading="lazy"'}`)).map(x => '  ' + x).join('\n')}
+${HERO_SLIDES.map((sl, i) => pic(sl.img, '100vw', `class="hero-slide${i === 0 ? ' on' : ''}" alt=""${i === 0 ? ' fetchpriority="high"' : ' loading="lazy"'}`)).map(x => '  ' + x).join('\n')}
   <div class="hero-veil" aria-hidden="true"></div>
-  <div class="hero-ring" aria-hidden="true"></div>
-  <div class="hero-say">
-    <h1>${esc(SITE.name)}</h1>
-    <p class="hero-fields">${esc(SITE.fields)}</p>
-    <p class="hero-eyebrow">${esc(SITE.descriptor)}</p>
-    <div class="hero-cta">
-      <a class="btn" href="#about">Learn more</a>
-      <a class="btn" href="#sectors">Our sectors</a>
+  <div class="wrap hero-in">
+    <div class="hero-say">
+      <p class="hero-eyebrow">${esc(SITE.descriptor)} <span aria-hidden="true">&middot;</span> Doha, Qatar</p>
+      <h1>Building Businesses.<br>Creating <em>Value</em>.</h1>
+      <p class="hero-lede">${esc(SITE.fields)}</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="/sectors/">Explore our sectors</a>
+        <a class="btn btn-ghost" href="/about/">About the Group</a>
+      </div>
     </div>
   </div>
-  <div class="hero-dots">
-${HERO_SLIDES.map((n, i) => `    <button class="hero-dot${i === 0 ? ' on' : ''}" type="button" aria-label="Photograph ${i + 1} of ${HERO_SLIDES.length}" aria-pressed="${i === 0}"></button>`).join('\n')}
+  <div class="wrap hero-foot">
+    <div class="hero-tabs" role="group" aria-label="Photographs">
+${HERO_SLIDES.map((sl, i) => `      <button class="hero-dot${i === 0 ? ' on' : ''}" type="button" aria-pressed="${i === 0}" aria-label="Photograph ${i + 1}: ${esc(sl.label)}"><span class="hero-tab-n">${num(i)}</span><span class="hero-tab-t">${esc(sl.label)}</span></button>`).join('\n')}
+    </div>
   </div>
 </section>
 
 <section class="section corp" id="about" aria-labelledby="corpTitle">
   <div class="wrap corp-in">
     <div class="rise">
-      <h2 id="corpTitle">Corporate Statement</h2>
-      <p class="ar" lang="ar">البيان المؤسسي</p>
+      <p class="eyebrow">The Group</p>
+      <h2 id="corpTitle">Capital, commerce and the means to deliver.</h2>
+      <p class="ar" lang="ar">المجموعة</p>
       <figure class="corp-pic">
         ${pic('about-platform', '(max-width:900px) 100vw, 50vw', 'alt="" loading="lazy"')}
       </figure>
-      <p class="say">${esc(SITE.name)} is a diversified corporate group based in the State of Qatar. It brings together businesses that invest, trade, supply and serve: energy, technology and institutional supply through TIBECO Group, commodity trading with international freight through Lusail Commercial, food import and distribution through ROMA Commercial, and a laundry and a café that serve households directly.</p>
-      <p class="say">The companies are run as parts of one group. Sourcing, logistics and commercial relationships built in one are open to the others, under one direction and one standard of governance.</p>
-      <a class="btn btn-gold" href="/about/">Discover ${esc(SITE.name)}</a>
+      <p class="say">${esc(SITE.name)} brings together businesses that invest, trade, supply and serve &mdash; energy, technology and institutional supply through TIBECO Group, and commodity trading with international freight through Lusail Commercial.</p>
+      <p class="say">Alongside them the Group imports and distributes food across Qatar, and runs a laundry and a caf&eacute;. Each company runs in its own market; sourcing, logistics and commercial relationships built in one are open to the others.</p>
+      <a class="btn btn-gold" href="/about/">About the Group</a>
     </div>
     <div class="corp-side rise d1">
       <div>
-        <h2>Why ${esc(SITE.name)}</h2>
-        <p class="ar" lang="ar">لماذا لوسيل كورب</p>
-${WHY.map(w => `        <p class="say"><strong>${esc(w.t)}.</strong> ${esc(w.d)}</p>`).join('\n')}
+        <p class="eyebrow">Why ${esc(SITE.name)}</p>
+        <h2>What makes it a group</h2>
+        <p class="ar" lang="ar">ما يجعلها مجموعة</p>
       </div>
-      <div>
-        <h3>Institutional Strength</h3>
-        <p class="ar" lang="ar">القوة المؤسسية والحوكمة</p>
-        <div class="corp-box">
-          <p>Each company keeps its own identity, customers and commercial focus. The Group sets the commercial priorities with it and holds it to them, and puts in the processes and systems a company needs before it needs them.</p>
-          <p>Growth is selective by design: fewer, larger commitments, chosen for whether they will still make sense in a decade, and partnerships meant to last longer than a single transaction.</p>
-        </div>
-      </div>
+      <ol class="why-list corp-why">
+${WHY.map((x, i) => `        <li class="why-item">
+          <span class="why-n" aria-hidden="true">${num(i)}</span>
+          <div>
+            <h3>${esc(x.t)}</h3>
+            <p>${esc(x.d)}</p>
+          </div>
+        </li>`).join('\n')}
+      </ol>
     </div>
   </div>
 </section>
@@ -1048,7 +1079,6 @@ ${stats.map(([k, v]) => `          <div><dt>${esc(k)}</dt><dd data-to="${esc(v)}
 </section>
 
 `
-    + portalBand()
     + ctaBand()
     + footer();
 }
@@ -1532,13 +1562,27 @@ ${a.img ? `        <span class="area-pic">${pic(a.img, '(max-width:700px) 100vw,
     })
   })
     + header(secHref(s))
-    + `<section class="phero">
-  ${pic(s.hero, '100vw', 'class="phero-bg" alt="" fetchpriority="high"')}
-  <div class="phero-say">
-    <span class="pill">${icon(SECTOR_ICON[s.slug] || 'markets')}${esc(SITE.name)} &ndash; Sector ${num(i)}</span>
+    + `<section class="shero">
+  ${pic(s.hero, '100vw', 'class="shero-bg" alt="" fetchpriority="high"')}
+  <div class="wrap shero-in">
+    <p class="crumbs"><a href="/">${esc(SITE.name)}</a><span aria-hidden="true">/</span><a href="/sectors/">Our Sectors</a><span aria-hidden="true">/</span><span>${esc(s.name)}</span></p>
+    <p class="eyebrow">Sector ${num(i)} of ${num(SECTORS.length - 1)}</p>
     <h1>${esc(s.name)}</h1>
     <p class="ar" lang="ar">${esc(s.ar || '')}</p>
-    <p class="phero-sub">${esc(s.headline)}</p>
+    <p class="shero-lede">${esc(s.intro)}</p>
+    <div class="shero-cta">
+      <a class="btn btn-gold" href="#areas">Business areas</a>
+      <a class="btn btn-ghost" href="#companies">${cos.length === 1 ? 'The company' : 'The companies'}</a>
+    </div>
+  </div>
+  <div class="shero-facts">
+    <div class="wrap">
+      <dl>
+        <div><dt>Companies</dt><dd>${cos.map(c => esc(c.name)).join(' · ')}</dd></div>
+        <div><dt>Business areas</dt><dd>${areas.length}</dd></div>
+        <div><dt>Market</dt><dd>${cos.some(c => c.slug === 'lusail-commercial' || c.slug === 'tibeco-group') ? 'Qatar and international' : 'Qatar'}</dd></div>
+      </dl>
+    </div>
   </div>
 </section>
 
@@ -1552,10 +1596,9 @@ ${buys ? '  <a href="#portal">Supplier Portal</a>\n' : ''}  <a href="#sectors">O
 <section class="section stone" id="overview" aria-labelledby="secOverTitle">
   <div class="wrap grid3">
     <div class="rise">
-      <h2 id="secOverTitle">Overview</h2>
+      <h2 id="secOverTitle">${esc(s.headline)}</h2>
       <p class="ar" lang="ar">نظرة عامة</p>
       <span class="rule" aria-hidden="true"></span>
-      <p class="eyebrow">${esc(s.intro)}</p>
     </div>
     <p class="rise d1">${esc(s.body[0])}</p>
     <p class="rise d2">${esc(s.body[1])}</p>

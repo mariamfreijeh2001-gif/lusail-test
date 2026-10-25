@@ -202,7 +202,10 @@ fixed bar that is transparent over the page and fills in once it scrolls —
 in the middle — a full-screen slideshow that opens on the Group's name,
 Arabic sub-labels under section headings, image tiles with the name along
 the foot, cards with a hairline border that turns gold under the pointer, and
-a one-line footer. The tokens are at the top of `assets/css/site.css`;
+a footer of the mark and three columns. The grammar is TIBECO's; the pages
+are Lusail's — its own statement, its own section names, a sector opening
+that matches its company pages, and the sector explorer, which TIBECO does
+not have. The tokens are at the top of `assets/css/site.css`;
 changing the brand is changing those.
 [docs/tibeco-reference-study.md](docs/tibeco-reference-study.md) maps the
 reference onto this site, component by component.
@@ -232,20 +235,22 @@ Cards are dark with a hairline border that turns gold under the pointer.
 
 - **The bar is fixed and transparent** over the top of every page, filling
   in to the deep ground once the page scrolls; every opening starts under it.
-- **Home** — TIBECO's home, re-cast: a full-screen **slideshow** of six
-  photographs behind the Group's name, "Investment | Trade | Supply |
-  Services" and the descriptor in gold, with two joined buttons; the
-  **Corporate Statement** beside **Why Lusail Corp** and an "Institutional
-  Strength" box; **Core Business Sectors** as the **sector explorer** — the
+- **Home** — the Group's own statement, "Building Businesses. Creating
+  Value.", left-aligned over a **slideshow** of six photographs named along
+  the foot (the Group, then five of its fields; the live one fills in gold);
+  **The Group** — the statement, a photograph and two paragraphs — beside
+  **What makes it a group**, the four claims as a numbered list; **Core
+  Business Sectors** as the **sector explorer** — the
   seven down the left, the open one on the right with its photograph, its
   line, the companies under it and its business areas (an accordion on a
   phone); **Group Companies** as five tiles; **Global Presence** — the
   sourcing **globe** with the regions beside it and the Group's four figures
   (counted from the content) under it; the Supplier Portal band; the ask.
-- **Sector pages** (`/sectors/<slug>/`) — TIBECO's platform page: a
-  full-screen opening with the pill label ("Lusail Corp – Sector 02"), the
-  name, its Arabic and its line; **sticky tabs** that follow the reading;
-  the overview beside its intro; the **business areas** as cards, each
+- **Sector pages** (`/sectors/<slug>/`) — opened like a company page: the
+  crumb, "Sector 02 of 07", the name, its Arabic and its line over the
+  sector's photograph, with a facts bar along the foot (companies, business
+  areas, market); **sticky tabs** that follow the reading; the headline
+  beside two paragraphs; the **business areas** as cards, each
   naming the company behind it; the companies; a closing statement; the
   Supplier Portal band where the sector's companies buy; the other six
   sectors as tiles. The index (`/sectors/`) is the sector explorer and
@@ -312,7 +317,7 @@ Cards are dark with a hairline border that turns gold under the pointer.
   the seven, each with its mark and its Arabic, and **each opens to the
   companies under it** and its overview page (one open at a time; the
   sector of the page you are on starts open), and the way to all of them
-  and "Corporate" one from the right (Home, About, Work With Us, Supplier
+  and "The Group" one from the right (Home, About, Work With Us, Supplier
   Portal, Contact, and the Contact button), over a dimmed page. Escape, the
   close button, the scrim or a link closes them and focus returns to the
   control. The two controls are links to `/sectors/` and `/about/`, so
@@ -320,7 +325,8 @@ Cards are dark with a hairline border that turns gold under the pointer.
   alone and the two burger icons.
 - **The sector explorer** opens the sector pointed at and shows its
   companies and business areas; on a phone a second tap closes it.
-- **The slideshow** turns every five seconds; the dots pick a photograph.
+- **The slideshow** turns every five seconds; the named tabs along its
+  foot pick a photograph; the dots pick a photograph.
   Under reduced motion the first simply stays.
 - **The sticky tabs** on a sector page fill the tab of the section on screen
   in gold, from scroll position.

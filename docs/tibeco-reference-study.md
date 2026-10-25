@@ -85,6 +85,23 @@ platforms behind a drawer: the structure carries over unchanged. Three of the
 seven sectors are worked only through TIBECO Group today; their pages say so
 ("through TIBECO Group") and link to tibecogroup.com.
 
+## Reference, not copy — where the site is deliberately its own
+
+The second pass matched TIBECO closely; management asked for the reference
+to be used, not copied. These are the places the site now departs from it
+on purpose:
+
+| TIBECO | Lusail Corp |
+|---|---|
+| The home opens on the group's name, centred, in a faint ring, over "ELITE INTERNATIONAL BUSINESS GROUP" | The home opens on the Group's own statement, "Building Businesses. Creating Value.", left-aligned, with the descriptor as a small line and the photographs **named along the foot** — the Group, then five of its fields |
+| "Corporate Statement" / "Why TIBECO GROUP" / "Institutional Strength" | "The Group" / "What makes it a group" — the Group's four claims as a numbered list, in its own words |
+| "Core Business Platforms": a header row and image tiles per platform | **The sector explorer**: open a sector, see its photograph, line, companies and business areas — a component TIBECO does not have |
+| A platform page opens full-screen and centred, with a pill badge | A sector page opens like a company page: crumb, "Sector 02 of 07", name, Arabic, line, two buttons, and a **facts bar** along the foot — one grammar for every entity page on the site |
+| A one-line footer | The mark and the Group's line, then Sectors, The Group and Reach us as three columns, then the legal line |
+| "Corporate" | "The Group" — the Group's own word for itself |
+| Two asks at the foot of the home (the portal band, then the footer) | One closing band with both routes: enquiry, or the Supplier Portal |
+| Preloader, partners and certificates marquees | Left out: nothing to show yet, and an artificial delay is not a feature |
+
 ## What was kept Lusail's
 
 - **The gold** is the logo's `#D3A750`, not TIBECO's amber `hsl(38 90% 55%)`.
